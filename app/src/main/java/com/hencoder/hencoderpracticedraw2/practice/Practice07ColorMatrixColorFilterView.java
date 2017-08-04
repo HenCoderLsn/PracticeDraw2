@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -12,23 +14,32 @@ import android.view.View;
 import com.hencoder.hencoderpracticedraw2.R;
 
 public class Practice07ColorMatrixColorFilterView extends View {
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    Bitmap bitmap;
+
+    private Paint mPaint;
+    private Bitmap mBitmap;
 
     public Practice07ColorMatrixColorFilterView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public Practice07ColorMatrixColorFilterView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public Practice07ColorMatrixColorFilterView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
-    {
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.batman);
+    public void init() {
+
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.batman);
+
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0f);
+        mPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
 
         // 使用 setColorFilter() 设置一个 ColorMatrixColorFilter
         // 用 ColorMatrixColorFilter.setSaturation() 把饱和度去掉
@@ -38,6 +49,7 @@ public class Practice07ColorMatrixColorFilterView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawBitmap(bitmap, 0, 0, paint);
+        canvas.drawBitmap(mBitmap, 0, 0, mPaint);
     }
+
 }

@@ -9,27 +9,32 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class Practice11StrokeMiterView extends View {
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    Path path = new Path();
+
+    private Paint mPaint;
+    private Path mPath;
 
     public Practice11StrokeMiterView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public Practice11StrokeMiterView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public Practice11StrokeMiterView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
-    {
-        paint.setStrokeWidth(40);
-        paint.setStyle(Paint.Style.STROKE);
+    public void init() {
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPath = new Path();
 
-        path.rLineTo(200, 0);
-        path.rLineTo(-160, 120);
+        mPaint.setStrokeWidth(40);
+        mPaint.setStyle(Paint.Style.STROKE);
+
+        mPath.rLineTo(200, 0);
+        mPath.rLineTo(-160, 120);
     }
 
     @Override
@@ -40,15 +45,18 @@ public class Practice11StrokeMiterView extends View {
 
         canvas.translate(100, 100);
         // MITER 值：1
-        canvas.drawPath(path, paint);
+        mPaint.setStrokeMiter(1);
+        canvas.drawPath(mPath, mPaint);
 
         canvas.translate(300, 0);
         // MITER 值：2
-        canvas.drawPath(path, paint);
+        mPaint.setStrokeMiter(2);
+        canvas.drawPath(mPath, mPaint);
 
         canvas.translate(300, 0);
         // MITER 值：5
-        canvas.drawPath(path, paint);
+        mPaint.setStrokeMiter(5);
+        canvas.drawPath(mPath, mPaint);
 
         canvas.restore();
     }
